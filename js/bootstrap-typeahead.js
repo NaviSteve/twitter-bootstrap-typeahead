@@ -235,6 +235,7 @@ function ($) {
 
       listen: function () {
           this.$element
+            .on('focus', $.proxy(this.focus, this))
             .on('blur', $.proxy(this.blur, this))
             .on('keyup', $.proxy(this.keyup, this));
 
@@ -290,6 +291,11 @@ function ($) {
             this.next();
             break;
         }
+      },
+
+      focus: function (e) {
+        if (this.$element.val().length > 0)
+          this.$menu.show();
       },
 
       blur: function (e) {
