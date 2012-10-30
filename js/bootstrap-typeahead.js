@@ -37,6 +37,7 @@ function ($) {
       this.options = $.extend(true, {}, $.fn.typeahead.defaults, options);
       this.$menu = $(this.options.menu).appendTo('body');
       this.sorter = this.options.sorter || this.sorter;
+      this.filter = this.options.filter || this.filter;
       this.highlighter = this.options.highlighter || this.highlighter;
       this.shown = false;
       this.initSource();
@@ -49,7 +50,9 @@ function ($) {
 
       initSource: function() {
         if (this.options.source) {
-          if (typeof this.options.source === 'string') {
+          if (typeof this.options.source === 'function') {
+            this.source = this.options.source;
+          } else if (typeof this.options.source === 'string') {
            this.source = $.extend({}, $.ajaxSettings, { url: this.options.source })
           } else if (typeof this.options.source === 'object') {
             if (this.options.source instanceof Array) {
@@ -81,7 +84,9 @@ function ($) {
           return this.shown ? this.hide() : this;
         }
 
-        if (this.source.url) {
+        if (typeof this.source === 'function') {
+          items = this.source(this.query, $.proxy(that.filter, that));
+        } else if (this.source.url) {
           if (this.xhr) this.xhr.abort();
 
           this.xhr = $.ajax(
