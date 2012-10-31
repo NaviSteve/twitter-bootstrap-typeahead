@@ -207,7 +207,13 @@ function ($) {
       select: function () {
         var $selectedItem = this.$menu.find('.active');
         this.$element.val($selectedItem.text()).change();
-        this.options.itemSelected(JSON.parse($selectedItem.attr('data-value')));
+        var dataValue = '';
+        try {
+          dataValue = JSON.parse($selectedItem.attr('data-value'));
+        } catch (err) {
+          dataValue = $selectedItem.attr('data-value');
+        }
+        this.options.itemSelected(JSON.parse(dataValue));
         return this.hide();
       },
 
