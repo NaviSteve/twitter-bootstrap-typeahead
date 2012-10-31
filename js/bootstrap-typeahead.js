@@ -169,33 +169,36 @@ function ($) {
         var that = this,
           $templateItem,
           $standardItem;
+        if (items.length > 0) {
+          items = $(items).map(function (i, item) {
+              if (that.options.tmpl) {
+                i = $(that.options.tmpl(item));
+              } else {
+                i = $(that.options.item);
+              }
 
-        items = $(items).map(function (i, item) {
-            if (that.options.tmpl) {
-              i = $(that.options.tmpl(item));
-            } else {
-              i = $(that.options.item);
-            }
+              if (typeof that.options.val === 'string') {
+                i.attr('data-value', item[that.options.val]);
+              } else {
+                i.attr('data-value', JSON.stringify($.extend({}, that.options.val, item)))
+              }
 
-            if (typeof that.options.val === 'string') {
-              i.attr('data-value', item[that.options.val]);
-            } else {
-              i.attr('data-value', JSON.stringify($.extend({}, that.options.val, item)))
-            }
+              $templateItem = i.find('.typeahead-display-val');
+              $standardItem = i.find('a');
 
-            $templateItem = i.find('.typeahead-display-val');
-            $standardItem = i.find('a');
+              if ($templateItem.length) {
+                $templateItem.html(that.highlighter(item[that.options.display]))
+              } else if ($standardItem.length) {
+                $standardItem.html(that.highlighter(item[that.options.display]));
+              }
 
-            if ($templateItem.length) {
-              $templateItem.html(that.highlighter(item[that.options.display]))
-            } else if ($standardItem.length) {
-              $standardItem.html(that.highlighter(item[that.options.display]));
-            }
+              return i[0];
+          });
 
-            return i[0];
-        });
-
-        items.first().addClass('active');
+          items.first().addClass('active');
+        } else {
+          items = '<li><a href="#">no results</a></li>';
+        }
 
         setTimeout(function() {
           that.$menu.html(items);
