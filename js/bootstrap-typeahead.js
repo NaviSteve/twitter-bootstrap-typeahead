@@ -216,7 +216,7 @@ function ($) {
         } catch (err) {
           dataValue = $selectedItem.attr('data-value');
         }
-        this.options.itemSelected(JSON.parse(dataValue));
+        this.options.itemSelected(dataValue);
         return this.hide();
       },
 
