@@ -197,7 +197,7 @@ function ($) {
 
           items.first().addClass('active');
         } else {
-          items = '<li><a href="#">no results</a></li>';
+          items = '<li class="disabled"><a href="#">no results</a></li>';
         }
 
         setTimeout(function() {
@@ -228,7 +228,7 @@ function ($) {
           next = $(this.$menu.find('li')[0]);
         }
 
-        next.addClass('active');
+        next.not('.disabled').addClass('active');
       },
 
       prev: function (event) {
@@ -239,7 +239,7 @@ function ($) {
           prev = this.$menu.find('li').last();
         }
 
-        prev.addClass('active');
+        prev.not('.disabled').addClass('active');
       },
 
       listen: function () {
@@ -325,7 +325,7 @@ function ($) {
 
       mouseenter: function (e) {
         this.$menu.find('.active').removeClass('active');
-        $(e.currentTarget).addClass('active');
+        $(e.currentTarget).not('.disabled').addClass('active');
       }
   }
 
