@@ -260,7 +260,6 @@ function ($) {
       },
 
       keyup: function (e) {
-        e.stopPropagation();
         e.preventDefault();
 
         switch (e.keyCode) {
