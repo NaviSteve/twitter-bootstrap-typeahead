@@ -306,10 +306,12 @@ function ($) {
           this.$menu.show();
       },
 
-      blur: function (e) {
+      blur: function (e, force) {
+        if (!force) {
+          e.stopPropagation();
+          e.preventDefault();
+        }
         var that = this;
-        e.stopPropagation();
-        e.preventDefault();
         setTimeout(function () {
           if (!that.$menu.is(':focus')) {
             that.hide();
